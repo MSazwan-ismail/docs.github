@@ -1233,6 +1233,18 @@
       "requestPath": "/repos/{owner}/{repo}/stargazers"
     },
     {
+      "slug": "get-stargazer-count",
+      "subcategory": "starring",
+      "verb": "get",
+      "requestPath": "/repos/{owner}/{repo}/stargazers/count"
+    },
+    {
+      "slug": "get-repository-star-history",
+      "subcategory": "starring",
+      "verb": "get",
+      "requestPath": "/repos/{owner}/{repo}/stargazers/history"
+    },
+    {
       "slug": "list-watchers",
       "subcategory": "watching",
       "verb": "get",
@@ -1499,6 +1511,12 @@
   ],
   "billing": [
     {
+      "slug": "get-billing-ai-credit-usage-report-for-an-enterprise",
+      "subcategory": "usage",
+      "verb": "get",
+      "requestPath": "/enterprises/{enterprise}/settings/billing/ai_credit/usage"
+    },
+    {
       "slug": "get-all-budgets",
       "subcategory": "budgets",
       "verb": "get",
@@ -1577,6 +1595,12 @@
       "requestPath": "/enterprises/{enterprise}/settings/billing/cost-centers/{cost_center_id}/resource"
     },
     {
+      "slug": "get-billing-premium-request-usage-report-for-an-enterprise",
+      "subcategory": "usage",
+      "verb": "get",
+      "requestPath": "/enterprises/{enterprise}/settings/billing/premium_request/usage"
+    },
+    {
       "slug": "list-usage-report-exports",
       "subcategory": "usage-reports",
       "verb": "get",
@@ -1593,6 +1617,18 @@
       "subcategory": "usage-reports",
       "verb": "get",
       "requestPath": "/enterprises/{enterprise}/settings/billing/reports/{report_id}"
+    },
+    {
+      "slug": "get-billing-usage-report-for-an-enterprise",
+      "subcategory": "usage",
+      "verb": "get",
+      "requestPath": "/enterprises/{enterprise}/settings/billing/usage"
+    },
+    {
+      "slug": "get-billing-usage-summary-for-an-enterprise",
+      "subcategory": "usage",
+      "verb": "get",
+      "requestPath": "/enterprises/{enterprise}/settings/billing/usage/summary"
     },
     {
       "slug": "get-github-advanced-security-active-committers-for-an-organization",
@@ -1965,6 +2001,18 @@
   ],
   "code-scanning": [
     {
+      "slug": "get-the-ai-scan-setting-for-an-organization",
+      "subcategory": "code-scanning",
+      "verb": "get",
+      "requestPath": "/orgs/{org}/code-scanning/ai-scan"
+    },
+    {
+      "slug": "update-the-ai-scan-setting-for-an-organization",
+      "subcategory": "code-scanning",
+      "verb": "patch",
+      "requestPath": "/orgs/{org}/code-scanning/ai-scan"
+    },
+    {
       "slug": "list-code-scanning-alerts-for-an-organization",
       "subcategory": "code-scanning",
       "verb": "get",
@@ -1975,6 +2023,18 @@
       "subcategory": "alert-dismissal-requests",
       "verb": "get",
       "requestPath": "/orgs/{org}/dismissal-requests/code-scanning"
+    },
+    {
+      "slug": "get-ai-scan-enablement-for-a-repository",
+      "subcategory": "code-scanning",
+      "verb": "get",
+      "requestPath": "/repos/{owner}/{repo}/code-scanning/ai-scan"
+    },
+    {
+      "slug": "update-ai-scan-enablement-for-a-repository",
+      "subcategory": "code-scanning",
+      "verb": "patch",
+      "requestPath": "/repos/{owner}/{repo}/code-scanning/ai-scan"
     },
     {
       "slug": "list-code-scanning-alerts-for-a-repository",
@@ -3221,6 +3281,12 @@
       "requestPath": "/enterprises/{enterprise}/consumed-licenses"
     },
     {
+      "slug": "revoke-enterprise-delegated-credential-authorizations",
+      "subcategory": "credential-authorizations",
+      "verb": "delete",
+      "requestPath": "/enterprises/{enterprise}/credential-authorizations"
+    },
+    {
       "slug": "revoke-all-credential-authorizations-for-an-enterprise",
       "subcategory": "credential-authorizations",
       "verb": "post",
@@ -3522,6 +3588,12 @@
     }
   ],
   "enterprise-teams": [
+    {
+      "slug": "list-enterprise-teams-for-a-user",
+      "subcategory": "enterprise-team-members",
+      "verb": "get",
+      "requestPath": "/enterprises/{enterprise}/members/{username}/teams"
+    },
     {
       "slug": "list-enterprise-teams",
       "subcategory": "enterprise-teams",
