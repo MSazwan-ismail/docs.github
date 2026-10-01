@@ -47,6 +47,13 @@
   business: true
   enterprise: true
 
+- name: Claude Opus 5.5
+  pro: false
+  pro_plus: true
+  max: true
+  business: true
+  enterprise: true
+
 - name: Claude Fable 5
   pro: false
   pro_plus: true
@@ -69,6 +76,13 @@
   enterprise: false
 
 - name: Claude Sonnet 5
+  pro: true
+  pro_plus: true
+  max: true
+  business: true
+  enterprise: true
+
+- name: Claude Sonnet 5.5
   pro: true
   pro_plus: true
   max: true
@@ -173,6 +187,27 @@
   business: true
   enterprise: true
 
+- name: GPT-6 Luna
+  pro: true
+  pro_plus: true
+  max: true
+  business: true
+  enterprise: true
+
+- name: GPT-6 Sol
+  pro: false
+  pro_plus: true
+  max: true
+  business: true
+  enterprise: true
+
+- name: GPT-6.1 Sol
+  pro: false
+  pro_plus: true
+  max: true
+  business: true
+  enterprise: true
+
 - name: Grok 4.5
   pro: true
   pro_plus: true
@@ -181,6 +216,13 @@
   enterprise: true
 
 - name: Grok 4.6
+  pro: true
+  pro_plus: true
+  max: true
+  business: true
+  enterprise: true
+
+- name: Grok 4.7
   pro: true
   pro_plus: true
   max: true

@@ -59,6 +59,15 @@
   xcode: true
   jetbrains: true
 
+- name: Claude Opus 5.5
+  dotcom: true
+  cli: true
+  vscode: true
+  vs: true
+  eclipse: true
+  xcode: true
+  jetbrains: true
+
 - name: Claude Fable 5
   dotcom: true
   cli: true
@@ -87,6 +96,15 @@
   jetbrains: false
 
 - name: Claude Sonnet 5
+  dotcom: true
+  cli: true
+  vscode: true
+  vs: true
+  eclipse: true
+  xcode: true
+  jetbrains: true
+
+- name: Claude Sonnet 5.5
   dotcom: true
   cli: true
   vscode: true
@@ -230,6 +248,24 @@
   xcode: true
   jetbrains: true
 
+- name: GPT-6 Luna
+  dotcom: true
+  cli: true
+  vscode: true
+  vs: true
+  eclipse: true
+  xcode: true
+  jetbrains: true
+
+- name: GPT-6 Sol
+  dotcom: true
+  cli: true
+  vscode: true
+  vs: true
+  eclipse: true
+  xcode: true
+  jetbrains: true
+
 - name: Grok 4.5
   dotcom: false
   cli: true
@@ -240,6 +276,15 @@
   jetbrains: true
 
 - name: Grok 4.6
+  dotcom: false
+  cli: true
+  vscode: true
+  vs: true
+  eclipse: true
+  xcode: true
+  jetbrains: true
+
+- name: Grok 4.7
   dotcom: false
   cli: true
   vscode: true
