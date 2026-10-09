@@ -1,0 +1,221 @@
+name: NodeJS with Webpack
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Build
+      run: |
+        npm install
+        npx webpack
+Istilah webpack.yml paling kerap merujuk kepada fail konfigurasi GitHub Actions CI/CD workflow yang digunakan untuk membina (build) dan mengoptimumkan projek JavaScript berasaskan Webpack secara automatik. [1, 2] 
+(Nota: Webpack itu sendiri dikonfigurasikan menggunakan fail JavaScript seperti webpack.config.js. Jika anda meletakkan .yml, ia biasanya diletakkan di dalam folder .github/workflows/webpack.yml projek anda). [2, 3, 4] 
+Berikut adalah templat standard dan cara penggunaan fail webpack.yml untuk automasi CI/CD serta alternatif kegunaan lain.
+------------------------------
+## 1. Templat GitHub Actions Workflow (.github/workflows/webpack.yml)
+Fail ini diletakkan di dalam projek anda untuk menguji atau membina aplikasi secara automatik setiap kali kod baharu ditolak (push) ke repositori: [1, 2] 
+
+name: NodeJS with Webpack
+# Menjalankan workflow ini apabila ada push atau pull request pada branch utamaon:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x] # Menguji pada pelbagai versi Node.js
+
+    steps:
+    # 1. Mengambil kod dari repositori
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    # 2. Menyediakan persekitaran Node.js
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm' # Mengaktifkan caching untuk mempercepatkan pemasangan
+
+    # 3. Memasang dependensi (packages)
+    - name: Install dependencies
+      run: npm ci
+
+    # 4. Menjalankan proses Webpack build
+    - name: Build production bundle
+      run: npx webpack --mode production
+
+------------------------------
+## 2. Konfigurasi Alternatif webpack.yml Lain
+Bergantung kepada konteks projek anda, istilah ini juga mungkin merujuk kepada perkataan yang serupa dalam ekosistem pembangunan web:
+
+* 
+* Pemuat Fail YAML di Webpack (yaml-loader): Jika anda ingin memuatkan fail data berformat .yml atau .yaml ke dalam kod JavaScript anda menerusi Webpack, anda perlu memasang [yaml-loader pada GitHub](https://github.com/eemeli/yaml-loader) dan menambah tetapan di bawah dalam fail webpack.config.js (bukan dalam fail .yml): [5] 
+
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.ya?ml$/,
+        use: 'yaml-loader',
+      },
+    ],
+  },
+};
+
+* Ruby on Rails (webpacker.yml): Jika anda menggunakan framework Ruby on Rails dengan permata (gem) Webpacker, fail config/webpacker.yml digunakan untuk mengawal tetapan kompilasi aset dev-server. [6] 
+* 
+
+------------------------------
+## Ringkasan Ringkas Perbezaan Fail Konfigurasi
+
+| Nama Fail | Fungsi Utama | Kegunaan Konteks |
+|---|---|---|
+| .github/workflows/webpack.yml | Automasi membina & menguji kod di awan (CI/CD). | GitHub Actions |
+| webpack.config.js | Konfigurasi utama entri, output, dan loaders bagi Webpack. | Node.js / JavaScript |
+| webpacker.yml | Menghubungkan tetapan Rails dengan kompilasi Webpack. | Ruby on Rails (Webpacker) |
+
+Boleh kongsi lebih lanjut bagaimana anda merancang untuk menggunakan fail ini?
+
+* Adakah anda mahu menyediakan automasi CI/CD untuk projek Webpack anda?
+* Adakah anda mahu membaca fail .yml di dalam kod JavaScript anda?
+* Atau adakah anda menggunakan framework khusus seperti Ruby on Rails / Serverless?
+
+Beritahu saya supaya saya boleh memberikan panduan kod yang lebih tepat.
+
+[1] [https://github.com](https://github.com/actions/starter-workflows/blob/main/ci/webpack.yml)
+[2] [https://github.com](https://github.com/google/google-api-javascript-client/pull/1409)
+[3] [https://programoholic.medium.com](https://programoholic.medium.com/build-and-deploy-serverless-application-with-webpack-584163367390)
+[4] [https://developer.adobe.com](https://developer.adobe.com/app-builder/docs/guides/app_builder_guides/configuration/webpack-configuration)
+[5] [https://github.com](https://github.com/eemeli/yaml-loader)
+[6] [https://rossta.net](https://rossta.net/blog/how-to-use-webpacker-yml.html)
+Dokumen yang anda kongsikan mengandungi maklumat tentang SSH key fingerprints rasmi untuk GitHub serta entri hos yang boleh dimasukkan ke dalam fail known_hosts.
+Maklumat ini sangat penting untuk keselamatan (security) bagi mengesahkan bahawa komputer anda sedang bersambung secara selamat ke pelayan GitHub yang sebenar, dan bukannya pelayan palsu (serangan Man-in-the-Middle).
+Berikut adalah ringkasan komponen utama daripada teks yang anda berikan:
+------------------------------
+## 1. Senarai Cap Jari (Fingerprints) Awam GitHub
+Apabila anda melakukan sambungan SSH pertama kali ke GitHub, terminal anda akan memaparkan salah satu cap jari SHA256 di bawah untuk pengesahan:
+
+* Ed25519: SHA256:+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU (Sangat disyorkan)
+* ECDSA: SHA256:p2QAMXNIC1TJYWeIOttrVc98/R1BUFWu3/LiyKgUfQM
+* RSA: SHA256:uNiVztksCsDhcc0u9e8BujQXVUpKZIDTMczCvj3tD2s
+* DSA: SHA256:br9IjFspm1vxR3iA35FWE+4VTyz1hYVLIE2t1/CeyWQ (Fasa penutupan / bakal dihentikan)
+
+------------------------------
+## 2. Automasi Pengesahan Hos (known_hosts)
+Bagi mengelakkan terminal anda bertanya secara manual sama ada mahu mempercayai hos GitHub (amaran "The authenticity of host... can't be established"), anda boleh menyalin teks di dalam kotak kod di bawah dan memasukkannya terus ke dalam fail konfigurasi SSH peranti anda:
+Lokasi Fail: ~/.ssh/known_hosts (pada Linux/macOS) atau C:\Users\NamaUser\.ssh\known_hosts (pada Windows).
+
+github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl
+github.com ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEmKSENjQEezOmxkZMy7opKgwFB9nkt5YRrYMjNuG5N87uRgg6CLrbo5wAdT/y6v0mKV0U2w0WZ2YB/++Tpockg=
+github.com ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCj7ndNxQowgcQnjshcLrqPEiiphnt+VTTvDP6mHBL9j1aNUkY4Ue1gvwnGLVlOhGeYrnZaMgRK6+PKCUXaDbC7qtbW8gIkhL7aGCsOr/C56SJMy/BCZfxd1nWzAOxSDPgVsmerOBYfNqltV9/hWCqBywINIR+5dIg6JTJ72pcEpEjcYgXkE2YEFXV1JHnsKgbLWNlhScqb2UmyRkQyytRLtL+38TGxkxCflmO+5Z8CSSNY7GidjMIZ7Q4zMjA2n1nGrlTDkzwDCsw+wqFPGQA179cnfGWOWRVruj16z6XyvxvjJwbz0wQZ75XK5tKSb7FNyeIEs4TT4jk+S4dhPeAUC5y+bDYirYgM4GC7uEnztnZyaVWQ7B381AK4Qdrwt51ZqExKbQpTUNn+EjqoTwvqNj4kqx5QUCI0ThS/YkOxJCXmPUWZbhjpCg56i+2aB6CmK2JGhn57K5mj0MNdBXA4/WnwH6XoPWJzK5Nyu2zB3nAZp+S5hpQs+p1vN1/wsjk=
+
+------------------------------
+## Jadual Perbandingan Jenis Kunci (Key Types) GitHub
+
+| Jenis Kunci (Key Type) | Status Keselamatan | Kegunaan Utama |
+|---|---|---|
+| Ed25519 | Paling Selamat & Laju | Pilihan utama modern untuk sambungan SSH GitHub. |
+| ECDSA | Selamat | Alternatif standard berasaskan algoritma eliptik. |
+| RSA | Selamat (Saiz Besar) | Kunci tradisional yang masih disokong meluas. |
+| DSA | Tidak Digalakkan | Bakal ditamatkan (closing down) kerana isu keselamatan usang. |
+
+Adakah anda sedang menghadapi ralat amaran keselamatan SSH semasa melakukan git push/pull, atau adakah anda memerlukan bantuan untuk memasukkan entri ini ke dalam sistem operasi anda?
+
+Memandangkan anda meminta maklumat lanjut ("Lagi"), mari kita perincikan panduan praktikal untuk kedua- shele konsep yang telah kita bincangkan sebelum ini.
+------------------------------
+## A. Panduan Lanjutan: GitHub Actions webpack.yml dengan Caching & Artifak
+Jika anda mahu membina talian paip CI/CD yang cekap untuk Webpack, templat di bawah menambah ciri Caching (untuk memendekkan masa build sehingga 50%) dan menyimpan hasil build sebagai Artifacts supaya anda boleh memuat turun fail produksi .js/.css yang terhasil: [1, 2] 
+
+name: Production Webpack Build
+on:
+  push:
+    branches: [ "main" ]
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        # Automatik mengaktifkan cache untuk node_modules berasaskan package-lock.json
+        cache: 'npm' 
+
+    - name: Install Dependencies
+      run: npm ci
+
+    - name: Run Webpack Build
+      run: npm run build # Memanggil 'webpack --mode production' dalam package.json
+
+    # Langkah Tambahan: Menyimpan hasil binaan folder 'dist' ke GitHub Actions
+    - name: Upload Build Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: production-assets
+        path: dist/ # Tukar ke folder output Webpack anda (cth: build/, public/)
+
+------------------------------
+## B. Panduan Praktikal: Cara Memasukkan GitHub SSH Fingerprints ke Fail known_hosts
+Jika anda mahu menyelesaikan ralat keselamatan SSH atau menyediakan skrip automasi yang memerlukan komunikasi terus dengan GitHub menerusi SSH, anda mempunyai dua cara untuk memasukkan entri kunci hos awam rasmi GitHub:
+## Cara 1: Menggunakan Terminal CLI (Paling Mudah & Cepat)
+Anda boleh menggunakan utiliti ssh-keyscan untuk mengambil kunci hos [GitHub](https://github.com/) secara automatik dan memasukkannya terus ke dalam fail known_hosts peranti anda: [3] 
+
+* 
+* Untuk Linux / macOS:
+
+ssh-keyscan -t ed25519 github.com >> ~/.ssh/known_hosts
+
+* Untuk Windows (PowerShell):
+
+ssh-keyscan -t ed25519 github.com | Out-File -FilePath "$env:USERPROFILE\.ssh\known_hosts" -Encoding ascii -Append
+
+* 
+
+## Cara 2: Menyalin secara Manual
+Jika arahan di atas tidak berfungsi, anda boleh membuka fail known_hosts menggunakan teks editor (seperti Notepad, VS Code, Nano, atau Vim) dan menampal baris kunci hos rasmi Ed25519 GitHub ini di bahagian paling bawah fail: [4] 
+
+github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl
+
+Selepas melakukan salah satu langkah di atas, apabila anda menjalankan arahan git push origin main menggunakan SSH, sistem tidak akan mengeluarkan amaran pengesahan lagi.
+------------------------------
+## Jadual Ringkasan Tindakan Automasi vs Keselamatan
+
+| Senario Masalah | Alat / Fail yang Terlibat | Langkah Penyelesaian |
+|---|---|---|
+| Mahu automatikkan semakan & kompilasi kod Webpack | .github/workflows/webpack.yml | Letakkan fail skrip YAML ke dalam repo GitHub anda. |
+| Amaran "Host key verification failed" semasa Git Push | ~/.ssh/known_hosts | Jalankan ssh-keyscan atau tampal kunci hos Ed25519 secara manual. |
+| Mahu muat turun fail output kod JavaScript selepas CI/CD selesai | actions/upload-artifact@v4 | Tambah langkah upload-artifact pada fasa terakhir kerja di fail .yml. |
+
+Antara kedua-dua topik ini, yang mana satu sedang anda cuba selesaikan sekarang? Sila maklumkan jika anda memerlukan bantuan penyahpepijatan (debugging) kod ralat tertentu!
+
+[1] [https://pbs.bartificer.net](https://pbs.bartificer.net/pbs176)
+[2] [https://lalitchaturveditech.medium.com](https://lalitchaturveditech.medium.com/github-actions-a-complete-ci-cd-guide-for-devops-engineers-93c47ece4f40)
+[3] [https://www.techrepublic.com](https://www.techrepublic.com/article/how-to-easily-add-an-ssh-fingerprint-to-your-knownhosts-file-in-linux/)
+[4] [https://www.ewallzsolutions.com](https://www.ewallzsolutions.com/panduan-lengkap-menggunakan-ssh-key-berbanding-password-login/)
